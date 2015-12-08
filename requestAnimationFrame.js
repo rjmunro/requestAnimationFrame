@@ -22,11 +22,10 @@ if (!Date.now)
     }
     if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
         || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
-        var lastTime = 0;
         window.requestAnimationFrame = function(callback) {
             var now = Date.now();
-            var nextTime = Math.max(lastTime + 16, now);
-            return setTimeout(function() { callback(lastTime = nextTime); },
+            var nextTime = Math.ceil(now * 60 / 1000) * 1000 / 60;
+            return setTimeout(function() { callback(nextTime); },
                               nextTime - now);
         };
         window.cancelAnimationFrame = clearTimeout;
